@@ -223,7 +223,7 @@ export default {
           // console.log(data);
         });
         // console.log(this.feedDatas);
-        this.originalDatas = this.feedDatas;
+        this.originalDatas = this.feedDatas.reverse();
       })
       .catch((error) => {
         // console.log(error.response);

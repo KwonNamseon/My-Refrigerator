@@ -11,6 +11,7 @@
                 <img style="width: 50px; height: 50px;" :src="require(`../../assets/images/fresh_grade/${userData.score}.png`)" alt="신선도">
                 <h2 class="user-name">{{userinfo.nickname}}</h2>
                 <router-link to="/user/modifyuser"><v-btn class="myprofil-icon" icon><v-icon>mdi-cog</v-icon></v-btn></router-link>
+                <button @click="deleteMember">탈퇴</button>
               </div>
               <v-container style="min-height: 0; padding: 10px; width: 250px" >
                 <v-row class="myprofil-boxes" no-gutters>
@@ -134,6 +135,7 @@ import $ from 'jquery'
 import axios from "axios"
 import "../../components/css/user.scss"
 import store from '../../vuex/store.js'
+import Swal from 'sweetalert2'
 
 const SERVER_URL = store.state.SERVER_URL;
 
@@ -290,6 +292,33 @@ export default {
       $('.myprofil-feed').css('background-color', 'rgb(202, 231, 171)')
       $('.myprofil-scrap').css('background-color', 'white')
     },
+    deleteMember(){
+      Swal.fire({
+        title: '정말 탈퇴하시겠습니까?',
+        text: "되돌릴 수 없습니다!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '네 탈퇴할게요!'
+      }).then((result) => {
+        if (result.value) {
+          axios.delete(`https://i3b301.p.ssafy.io:9999/food/api/account/delete`,{params:{email : store.state.userInfo.email}})
+          .then(response => {
+            Swal.fire({
+                // position: 'top-end',
+                icon: 'success',
+                title: '탈퇴가 완료되었습니다.',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            this.$cookies.remove('auth-token');
+            store.commit('deluserInfo');
+            this.$router.push('/');
+          })
+        }
+      })
+    }
   },
   created() {
     if(store.state.kakaoUserInfo.email != null){

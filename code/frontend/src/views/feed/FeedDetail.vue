@@ -368,7 +368,6 @@ export default {
                 showConfirmButton: false,
                 timer: 1500
             })
-            window.location.reload();
             this.$router.push('/feed/main');
           })
         }
