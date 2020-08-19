@@ -7,6 +7,7 @@
             <div class="myphoto"><v-avatar size="100"><img :src="yourData.image" alt="John"></v-avatar></div>
             <div class="myprofil">
               <div style="margin: 10px">
+                <img style="width: 50px; height: 50px;" :src="require(`../../assets/images/fresh_grade/${yourData.score}.png`)" alt="신선도">
                 <h2 class="user-name">{{yourData.nickname}}</h2>
               </div>
               <v-container style="min-height: 0; padding: 10px; width: 250px" >
@@ -121,7 +122,7 @@ export default {
         recipe:"",
         follower:"",
         following:"",
-        score: '',
+        score:"",
       },
       recipes:[],
       isfollow : false,
@@ -308,7 +309,7 @@ export default {
           this.yourData.image = response.data.img;
           this.yourData.following = response.data.following;
           this.yourData.follower = response.data.follower;
-          this.yourData.score = Math.floor(Number(response.data.eval_point) / Number(response.data.eval_count));
+          this.yourData.score = Math.floor((response.data.eval_point) / (response.data.eval_count));
           console.log(this.yourData)
           // console.log(this.yourData.follower+" "+this.yourData.following);
         })
